@@ -1,0 +1,78 @@
+{
+  "schema_version": 1,
+  "plugin": "dk.mxm.mxm-fx-delay",
+  "name": "Random memory",
+  "category": "drone",
+  "_comment": "`v` is the value and is authoritative. `text` is this plugin's own formatting of it, kept so the file can be read, and is never loaded.",
+  "params": {
+    "change": {
+      "v": 0.5,
+      "text": "Fade"
+    },
+    "character": {
+      "v": 0.7,
+      "text": "70 %"
+    },
+    "drive": {
+      "v": 0.12,
+      "text": "12 %"
+    },
+    "duck": {
+      "v": 0.12,
+      "text": "12 %"
+    },
+    "feedback": {
+      "v": 0.68,
+      "text": "68 %"
+    },
+    "freeze": {
+      "v": 0.0,
+      "text": "Off"
+    },
+    "highcut": {
+      "v": 0.7719842,
+      "text": "12.00 kHz"
+    },
+    "lowcut": {
+      "v": 0.15845574,
+      "text": "40 Hz"
+    },
+    "model": {
+      "v": 0.5,
+      "text": "Vintage digital"
+    },
+    "motion": {
+      "v": 0.58,
+      "text": "58 %"
+    },
+    "offset": {
+      "v": 0.5,
+      "text": "0 %"
+    },
+    "rate": {
+      "v": 0.18860607,
+      "text": "0.070 Hz"
+    },
+    "ratesync": {
+      "v": 0.0,
+      "text": "Off"
+    },
+    "routing": {
+      "v": 0.0,
+      "text": "Standard"
+    },
+    "shape": {
+      "v": 1.0,
+      "text": "Random"
+    },
+    "sync": {
+      "v": 0.0,
+      "text": "Off"
+    },
+    "time": {
+      "v": 0.60834354,
+      "text": "1.10 s"
+    }
+  },
+  "state": null
+}

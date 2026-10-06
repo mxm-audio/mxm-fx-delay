@@ -1,0 +1,78 @@
+{
+  "schema_version": 1,
+  "plugin": "dk.mxm.mxm-fx-delay",
+  "name": "Long clear",
+  "category": "pad",
+  "_comment": "`v` is the value and is authoritative. `text` is this plugin's own formatting of it, kept so the file can be read, and is never loaded.",
+  "params": {
+    "change": {
+      "v": 0.5,
+      "text": "Fade"
+    },
+    "character": {
+      "v": 0.35,
+      "text": "35 %"
+    },
+    "drive": {
+      "v": 0.02,
+      "text": "2 %"
+    },
+    "duck": {
+      "v": 0.12,
+      "text": "12 %"
+    },
+    "feedback": {
+      "v": 0.67,
+      "text": "67 %"
+    },
+    "freeze": {
+      "v": 0.0,
+      "text": "Off"
+    },
+    "highcut": {
+      "v": 0.89329714,
+      "text": "16.00 kHz"
+    },
+    "lowcut": {
+      "v": 0.24324736,
+      "text": "120 Hz"
+    },
+    "model": {
+      "v": 0.0,
+      "text": "Clean"
+    },
+    "motion": {
+      "v": 0.0,
+      "text": "0 %"
+    },
+    "offset": {
+      "v": 0.5,
+      "text": "0 %"
+    },
+    "rate": {
+      "v": 0.28083548,
+      "text": "0.250 Hz"
+    },
+    "ratesync": {
+      "v": 0.0,
+      "text": "Off"
+    },
+    "routing": {
+      "v": 0.0,
+      "text": "Standard"
+    },
+    "shape": {
+      "v": 0.0,
+      "text": "Sine"
+    },
+    "sync": {
+      "v": 0.0,
+      "text": "Off"
+    },
+    "time": {
+      "v": 0.6883535,
+      "text": "1.80 s"
+    }
+  },
+  "state": null
+}

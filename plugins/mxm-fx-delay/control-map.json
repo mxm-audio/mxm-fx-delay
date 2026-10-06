@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "_comment": [
+    "Which mxm-fx-delay parameters fill the collection control roles.",
+    "Mix reuses fx.delay. Time, Feedback, Offset, Motion and Rate reuse the Delay page roles.",
+    "Freeze fills that page's deliberately reserved eighth slot. Model and Character do not claim",
+    "the bucket-delay Line and Bias roles because they are different quantities."
+  ],
+  "instruments": [
+    {
+      "clap_id": "dk.mxm.mxm-fx-delay",
+      "name": "mxm-fx-delay",
+      "params": {
+        "fx.delay": "mix",
+        "fx.delay_time": "time",
+        "fx.delay_feedback": "feedback",
+        "fx.delay_spread": "offset",
+        "fx.delay_wobble": "motion",
+        "fx.delay_wobble_rate": "rate",
+        "fx.delay_freeze": "freeze"
+      }
+    }
+  ]
+}

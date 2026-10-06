@@ -1,0 +1,78 @@
+{
+  "schema_version": 1,
+  "plugin": "dk.mxm.mxm-fx-delay",
+  "name": "Random width",
+  "category": "fx",
+  "_comment": "`v` is the value and is authoritative. `text` is this plugin's own formatting of it, kept so the file can be read, and is never loaded.",
+  "params": {
+    "change": {
+      "v": 0.5,
+      "text": "Fade"
+    },
+    "character": {
+      "v": 0.35,
+      "text": "35 %"
+    },
+    "drive": {
+      "v": 0.12,
+      "text": "12 %"
+    },
+    "duck": {
+      "v": 0.12,
+      "text": "12 %"
+    },
+    "feedback": {
+      "v": 0.34,
+      "text": "34 %"
+    },
+    "freeze": {
+      "v": 0.0,
+      "text": "Off"
+    },
+    "highcut": {
+      "v": 0.7719842,
+      "text": "12.00 kHz"
+    },
+    "lowcut": {
+      "v": 0.15845574,
+      "text": "40 Hz"
+    },
+    "model": {
+      "v": 0.0,
+      "text": "Clean"
+    },
+    "motion": {
+      "v": 0.62,
+      "text": "62 %"
+    },
+    "offset": {
+      "v": 0.7134218,
+      "text": "+30 %"
+    },
+    "rate": {
+      "v": 0.2841471,
+      "text": "0.260 Hz"
+    },
+    "ratesync": {
+      "v": 0.0,
+      "text": "Off"
+    },
+    "routing": {
+      "v": 0.5,
+      "text": "Dual"
+    },
+    "shape": {
+      "v": 1.0,
+      "text": "Random"
+    },
+    "sync": {
+      "v": 0.0,
+      "text": "Off"
+    },
+    "time": {
+      "v": 0.2943291,
+      "text": "65 ms"
+    }
+  },
+  "state": null
+}

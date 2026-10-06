@@ -1,0 +1,78 @@
+{
+  "schema_version": 1,
+  "plugin": "dk.mxm.mxm-fx-delay",
+  "name": "Dub clean",
+  "category": "fx",
+  "_comment": "`v` is the value and is authoritative. `text` is this plugin's own formatting of it, kept so the file can be read, and is never loaded.",
+  "params": {
+    "change": {
+      "v": 0.5,
+      "text": "Fade"
+    },
+    "character": {
+      "v": 0.35,
+      "text": "35 %"
+    },
+    "drive": {
+      "v": 0.3,
+      "text": "30 %"
+    },
+    "duck": {
+      "v": 0.12,
+      "text": "12 %"
+    },
+    "feedback": {
+      "v": 0.82,
+      "text": "82 %"
+    },
+    "freeze": {
+      "v": 0.0,
+      "text": "Off"
+    },
+    "highcut": {
+      "v": 0.531816,
+      "text": "5.80 kHz"
+    },
+    "lowcut": {
+      "v": 0.27525052,
+      "text": "170 Hz"
+    },
+    "model": {
+      "v": 0.0,
+      "text": "Clean"
+    },
+    "motion": {
+      "v": 0.0,
+      "text": "0 %"
+    },
+    "offset": {
+      "v": 0.5,
+      "text": "0 %"
+    },
+    "rate": {
+      "v": 0.28083548,
+      "text": "0.250 Hz"
+    },
+    "ratesync": {
+      "v": 0.0,
+      "text": "Off"
+    },
+    "routing": {
+      "v": 0.0,
+      "text": "Standard"
+    },
+    "shape": {
+      "v": 0.0,
+      "text": "Sine"
+    },
+    "sync": {
+      "v": 0.0,
+      "text": "Off"
+    },
+    "time": {
+      "v": 0.4884254,
+      "text": "460 ms"
+    }
+  },
+  "state": null
+}

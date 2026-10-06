@@ -1,0 +1,78 @@
+{
+  "schema_version": 1,
+  "plugin": "dk.mxm.mxm-fx-delay",
+  "name": "Dotted lift",
+  "category": "fx",
+  "_comment": "`v` is the value and is authoritative. `text` is this plugin's own formatting of it, kept so the file can be read, and is never loaded.",
+  "params": {
+    "change": {
+      "v": 0.5,
+      "text": "Fade"
+    },
+    "character": {
+      "v": 0.35,
+      "text": "35 %"
+    },
+    "drive": {
+      "v": 0.12,
+      "text": "12 %"
+    },
+    "duck": {
+      "v": 0.3,
+      "text": "30 %"
+    },
+    "feedback": {
+      "v": 0.52,
+      "text": "52 %"
+    },
+    "freeze": {
+      "v": 0.0,
+      "text": "Off"
+    },
+    "highcut": {
+      "v": 0.7719842,
+      "text": "12.00 kHz"
+    },
+    "lowcut": {
+      "v": 0.15845574,
+      "text": "40 Hz"
+    },
+    "model": {
+      "v": 0.0,
+      "text": "Clean"
+    },
+    "motion": {
+      "v": 0.0,
+      "text": "0 %"
+    },
+    "offset": {
+      "v": 0.5,
+      "text": "0 %"
+    },
+    "rate": {
+      "v": 0.28083548,
+      "text": "0.250 Hz"
+    },
+    "ratesync": {
+      "v": 0.0,
+      "text": "Off"
+    },
+    "routing": {
+      "v": 0.0,
+      "text": "Standard"
+    },
+    "shape": {
+      "v": 0.0,
+      "text": "Sine"
+    },
+    "sync": {
+      "v": 1.0,
+      "text": "On"
+    },
+    "time": {
+      "v": 0.6923075,
+      "text": "1.84 s"
+    }
+  },
+  "state": null
+}

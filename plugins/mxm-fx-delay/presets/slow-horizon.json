@@ -1,0 +1,78 @@
+{
+  "schema_version": 1,
+  "plugin": "dk.mxm.mxm-fx-delay",
+  "name": "Slow horizon",
+  "category": "pad",
+  "_comment": "`v` is the value and is authoritative. `text` is this plugin's own formatting of it, kept so the file can be read, and is never loaded.",
+  "params": {
+    "change": {
+      "v": 0.5,
+      "text": "Fade"
+    },
+    "character": {
+      "v": 0.82,
+      "text": "82 %"
+    },
+    "drive": {
+      "v": 0.12,
+      "text": "12 %"
+    },
+    "duck": {
+      "v": 0.28,
+      "text": "28 %"
+    },
+    "feedback": {
+      "v": 0.73,
+      "text": "73 %"
+    },
+    "freeze": {
+      "v": 0.0,
+      "text": "Off"
+    },
+    "highcut": {
+      "v": 0.7719842,
+      "text": "12.00 kHz"
+    },
+    "lowcut": {
+      "v": 0.15845574,
+      "text": "40 Hz"
+    },
+    "model": {
+      "v": 1.0,
+      "text": "Tape"
+    },
+    "motion": {
+      "v": 0.46,
+      "text": "46 %"
+    },
+    "offset": {
+      "v": 0.81488645,
+      "text": "+52 %"
+    },
+    "rate": {
+      "v": 0.12666579,
+      "text": "0.025 Hz"
+    },
+    "ratesync": {
+      "v": 0.0,
+      "text": "Off"
+    },
+    "routing": {
+      "v": 0.5,
+      "text": "Dual"
+    },
+    "shape": {
+      "v": 1.0,
+      "text": "Random"
+    },
+    "sync": {
+      "v": 0.0,
+      "text": "Off"
+    },
+    "time": {
+      "v": 0.7398127,
+      "text": "2.40 s"
+    }
+  },
+  "state": null
+}

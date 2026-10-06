@@ -1,0 +1,78 @@
+{
+  "schema_version": 1,
+  "plugin": "dk.mxm.mxm-fx-delay",
+  "name": "Moving ping",
+  "category": "sequence",
+  "_comment": "`v` is the value and is authoritative. `text` is this plugin's own formatting of it, kept so the file can be read, and is never loaded.",
+  "params": {
+    "change": {
+      "v": 0.5,
+      "text": "Fade"
+    },
+    "character": {
+      "v": 0.35,
+      "text": "35 %"
+    },
+    "drive": {
+      "v": 0.12,
+      "text": "12 %"
+    },
+    "duck": {
+      "v": 0.12,
+      "text": "12 %"
+    },
+    "feedback": {
+      "v": 0.57,
+      "text": "57 %"
+    },
+    "freeze": {
+      "v": 0.0,
+      "text": "Off"
+    },
+    "highcut": {
+      "v": 0.7719842,
+      "text": "12.00 kHz"
+    },
+    "lowcut": {
+      "v": 0.15845574,
+      "text": "40 Hz"
+    },
+    "model": {
+      "v": 0.0,
+      "text": "Clean"
+    },
+    "motion": {
+      "v": 0.44,
+      "text": "44 %"
+    },
+    "offset": {
+      "v": 0.5,
+      "text": "0 %"
+    },
+    "rate": {
+      "v": 0.31800804,
+      "text": "0.380 Hz"
+    },
+    "ratesync": {
+      "v": 0.0,
+      "text": "Off"
+    },
+    "routing": {
+      "v": 1.0,
+      "text": "Ping-pong"
+    },
+    "shape": {
+      "v": 0.0,
+      "text": "Sine"
+    },
+    "sync": {
+      "v": 0.0,
+      "text": "Off"
+    },
+    "time": {
+      "v": 0.40958214,
+      "text": "230 ms"
+    }
+  },
+  "state": null
+}

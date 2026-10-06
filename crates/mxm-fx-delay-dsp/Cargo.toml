@@ -1,0 +1,14 @@
+[package]
+name = "mxm-fx-delay-dsp"
+description = "Framework-free DSP for mxm-fx-delay: clean, early-digital and tape delay engines"
+version.workspace = true
+edition.workspace = true
+rust-version = "1.87"
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+
+[dependencies]
+
+[dev-dependencies]
+mxm-measure.workspace = true
