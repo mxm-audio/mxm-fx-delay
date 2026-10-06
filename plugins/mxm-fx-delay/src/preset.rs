@@ -293,13 +293,50 @@ mod tests {
             let committed = shipped.get(slug.as_str()).unwrap_or_else(|| {
                 panic!("{slug} is in the source table but no such file is compiled in")
             });
-            assert_eq!(
-                committed.replace("\r\n", "\n"),
-                *json,
-                "{slug}.json is stale: rerun `cargo run -p mxm-fx-delay --release \
-                 --example fx_delay_build_presets`"
+            if cfg!(target_os = "windows") {
+                assert_eq!(
+                    committed.replace("\r\n", "\n"),
+                    *json,
+                    "{slug}.json is stale: rerun `cargo run -p mxm-fx-delay --release \
+                     --example fx_delay_build_presets`"
+                );
+            } else {
+                let parse = |text: &str| mxm_preset::Preset::parse(text, crate::CLAP_ID).unwrap();
+                assert_same_within_rounding(&parse(committed), &parse(json), slug);
+            }
+        }
+    }
+
+    /// A shipped file against a fresh generation with each value compared within rounding,
+    /// everything else exactly. The files hold Windows' bits, and each platform's maths library
+    /// rounds in its own way: macOS computes some normalised values one step away (the owner,
+    /// 2026-10-06: pin on Windows only).
+    fn assert_same_within_rounding(
+        shipped: &mxm_preset::Preset,
+        generated: &mxm_preset::Preset,
+        slug: &str,
+    ) {
+        for (id, value) in &shipped.params {
+            let fresh = generated
+                .params
+                .get(id)
+                .unwrap_or_else(|| panic!("{slug}.json is stale: {id} is no longer generated"));
+            assert!(
+                (value.v - fresh.v).abs() <= 1.0e-6,
+                "{slug}.json is stale: {id} is {} in the file and {} when generated",
+                value.v,
+                fresh.v
             );
         }
+        let (mut shipped, mut generated) = (shipped.clone(), generated.clone());
+        for value in shipped
+            .params
+            .values_mut()
+            .chain(generated.params.values_mut())
+        {
+            value.v = 0.0;
+        }
+        assert_eq!(shipped, generated, "{slug}.json is stale");
     }
 
     #[test]
