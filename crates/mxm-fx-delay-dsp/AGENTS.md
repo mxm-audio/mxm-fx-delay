@@ -150,7 +150,7 @@ this contract.
 - Keep interpolation, model and routing implementations product-local until another honest product
   demonstrates a shared API.
 - Carry the delay-history, finite-transition, non-finite-recovery and late-attractor review prompts
-  from [`../../docs/code-review-notes.md`](https://github.com/mxm-audio/mxm-kit/blob/main/docs/code-review-notes.md).
+  from mxm-kit's [`docs/code-review-notes.md`](https://github.com/mxm-audio/mxm-kit/blob/main/docs/code-review-notes.md).
 
 # Verification
 

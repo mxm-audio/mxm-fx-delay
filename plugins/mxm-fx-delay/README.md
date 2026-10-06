@@ -21,5 +21,5 @@ The bundle is written to `target/bundled/mxm-fx-delay.clap` with its control map
 
 ## Licence
 
-MIT — see [`LICENSE`](LICENSE). The implementation and constants are original; this plugin does not
-claim to reproduce a named machine.
+GPL-3.0-or-later — see the repository's [`LICENSE`](../../LICENSE) at its root. The implementation
+and constants are original; this plugin does not claim to reproduce a named machine.

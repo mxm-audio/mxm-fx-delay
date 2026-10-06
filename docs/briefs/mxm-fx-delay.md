@@ -80,4 +80,6 @@ this prose. Every derived page fits within 1920 × 1080 **physical** pixels at 1
 minimum is one widest card plus gutters. At 150% and 200% the physical test window stays fixed;
 cards re-page and indivisible overflow gains both-axis scrolling. No ordinary control is clipped or
 hidden. Required native QA records Windows DPI 100%, 150% and 200%; Linux/macOS remain unverified on
-the development machine and are reported as such.
+the development machine and are reported as such. *Since the split (2026-10-06):* Linux builds and
+tests run in WSL before a push, and CI builds and tests macOS on `v*` release tags or by hand;
+neither is native visual QA at these scales.

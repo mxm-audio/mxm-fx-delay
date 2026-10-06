@@ -13,8 +13,10 @@ brief: [`../../docs/briefs/mxm-fx-delay.md`](../../docs/briefs/mxm-fx-delay.md).
 
 # Ownership
 
-Owns `Cargo.toml`, `LICENSE`, `README.md`, `control-map.json`, `presets/`, `examples/`, `tests/` and
-`src/`. DSP remains in the framework-free product crate; visual geometry remains in `mxm-ui`.
+Owns `Cargo.toml`, `README.md`, `control-map.json`, `presets/`, `examples/`, `tests/`, `host-tests/`
+and `src/`; its licence is the repository's root `LICENSE` (there is no per-plugin `LICENSE` since
+the split, 2026-10-06). DSP remains in the framework-free product crate; visual geometry remains in
+`mxm-ui`.
 
 # Local Contracts
 
@@ -153,10 +155,12 @@ clap-validator validate target/bundled/mxm-fx-delay.clap
 cargo test -p mxm-fx-delay-host-tests --test effect_chain
 ```
 
-After any shared-preset change, run `mxm-preset` and every plugin consumer as required by its DOX.
-After any standard/control-map change, run the Player's control-map unit and `t5_control_map` suites.
-Manual gates: owner listening on insert and full-wet send, native design-system §15 in both themes and
-100/150/200%, one real DAW at a small buffer, and Linux/macOS builds.
+After any shared-preset change, run `mxm-preset` (in mxm-kit) and every plugin consumer as required by
+its DOX. After any standard/control-map change, run the Player's control-map unit and `t5_control_map`
+suites (in mxm-player) and this repository's `effect_chain` host test, whose `control_map` module
+holds this plugin's map since the split. Manual gates: owner listening on insert and full-wet send,
+native design-system §15 in both themes and 100/150/200%, one real DAW at a small buffer, and
+Linux/macOS builds (*since the split:* Linux in WSL before a push, macOS by CI on `v*` tags).
 
 # Child DOX Index
 
