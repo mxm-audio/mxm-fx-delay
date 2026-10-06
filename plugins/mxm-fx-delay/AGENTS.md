@@ -160,7 +160,7 @@ its DOX. After any standard/control-map change, run the Player's control-map uni
 suites (in mxm-player) and this repository's `effect_chain` host test, whose `control_map` module
 holds this plugin's map since the split. Manual gates: owner listening on insert and full-wet send,
 native design-system §15 in both themes and 100/150/200%, one real DAW at a small buffer, and
-Linux/macOS builds (*since the split:* Linux in WSL before a push, macOS by CI on `v*` tags).
+Linux/macOS builds (*since the split:* checked later, together, and by CI on `v*` tags).
 
 # Child DOX Index
 
