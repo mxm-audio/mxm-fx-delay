@@ -3,6 +3,8 @@
 use std::sync::{Arc, RwLock};
 
 use mxm_fx_delay_dsp::{Change, MAX_DELAY_S, MIN_DELAY_S, Model, Routing, Shape};
+use mxm_params::text;
+use mxm_params::text::{StringToValue, ValueToString};
 use mxm_preset::PresetIdentity;
 use nice_plug::prelude::*;
 
@@ -125,24 +127,6 @@ pub fn time_range() -> FloatRange {
     }
 }
 
-type ValueToString = Arc<dyn Fn(f32) -> String + Send + Sync>;
-type StringToValue = Arc<dyn Fn(&str) -> Option<f32> + Send + Sync>;
-
-fn percent_to_string() -> ValueToString {
-    Arc::new(|value| format!("{:.0} %", value * 100.0))
-}
-
-fn string_to_percent() -> StringToValue {
-    Arc::new(|text| {
-        text.trim()
-            .trim_end_matches('%')
-            .trim()
-            .parse::<f32>()
-            .ok()
-            .map(|value| value / 100.0)
-    })
-}
-
 fn bipolar_percent_to_string() -> ValueToString {
     Arc::new(|value| {
         let percent = value * 100.0;
@@ -154,28 +138,6 @@ fn bipolar_percent_to_string() -> ValueToString {
     })
 }
 
-fn string_to_bipolar_percent() -> StringToValue {
-    Arc::new(|text| {
-        text.trim()
-            .trim_end_matches('%')
-            .trim()
-            .parse::<f32>()
-            .ok()
-            .map(|value| value / 100.0)
-    })
-}
-
-fn time_to_string() -> ValueToString {
-    Arc::new(|seconds| {
-        let milliseconds = seconds * 1_000.0;
-        if milliseconds.round() >= 1_000.0 {
-            format!("{seconds:.2} s")
-        } else {
-            format!("{milliseconds:.0} ms")
-        }
-    })
-}
-
 fn string_to_time() -> StringToValue {
     Arc::new(|text| {
         let lower = text.trim().to_ascii_lowercase();
@@ -183,16 +145,6 @@ fn string_to_time() -> StringToValue {
             value.trim().parse::<f32>().ok().map(|v| v / 1_000.0)
         } else {
             lower.trim_end_matches('s').trim().parse::<f32>().ok()
-        }
-    })
-}
-
-fn frequency_to_string() -> ValueToString {
-    Arc::new(|value| {
-        if value.round() >= 1_000.0 {
-            format!("{:.2} kHz", value / 1_000.0)
-        } else {
-            format!("{value:.0} Hz")
         }
     })
 }
@@ -278,12 +230,12 @@ impl Default for MxmFxDelayParams {
         let percent = |name, default| {
             FloatParam::new(name, default, FloatRange::Linear { min: 0.0, max: 1.0 })
                 .with_smoother(SmoothingStyle::Linear(20.0))
-                .with_value_to_string(percent_to_string())
-                .with_string_to_value(string_to_percent())
+                .with_value_to_string(text::percent())
+                .with_string_to_value(text::parse_percent())
         };
         Self {
             time: FloatParam::new("Time", DEFAULT_TIME_S, time_range())
-                .with_value_to_string(time_to_string())
+                .with_value_to_string(text::milliseconds_then_seconds())
                 .with_string_to_value(string_to_time()),
             // Read On/Off like every tempo sync in the collection; the old words still parse.
             sync: BoolParam::new("Time sync", false).with_string_to_value(Arc::new(
@@ -306,7 +258,7 @@ impl Default for MxmFxDelayParams {
                 },
             )
             .with_value_to_string(bipolar_percent_to_string())
-            .with_string_to_value(string_to_bipolar_percent()),
+            .with_string_to_value(text::parse_percent()),
             feedback: percent("Feedback", 0.42),
             low_cut: FloatParam::new(
                 "Low cut",
@@ -318,7 +270,7 @@ impl Default for MxmFxDelayParams {
                 },
             )
             .with_smoother(SmoothingStyle::Linear(20.0))
-            .with_value_to_string(frequency_to_string())
+            .with_value_to_string(text::whole_hertz_then_kilohertz())
             .with_string_to_value(string_to_frequency()),
             high_cut: FloatParam::new(
                 "High cut",
@@ -330,7 +282,7 @@ impl Default for MxmFxDelayParams {
                 },
             )
             .with_smoother(SmoothingStyle::Linear(20.0))
-            .with_value_to_string(frequency_to_string())
+            .with_value_to_string(text::whole_hertz_then_kilohertz())
             .with_string_to_value(string_to_frequency()),
             drive: percent("Drive", 0.12),
             freeze: BoolParam::new("Freeze", false),
@@ -554,32 +506,10 @@ mod tests {
         assert!((f64::from(top) - Division::Whole.seconds(120.0)).abs() < 1e-6);
     }
 
+    /// **Every parameter's text survives the host's round trip**, with the unit on, across the
+    /// collection's grids and switch points (`mxm_plugin_test::text_checks`).
     #[test]
-    fn parameter_text_is_idempotent_through_the_host_conversion() {
-        let params = MxmFxDelayParams::default();
-        let continuous: [&FloatParam; 11] = [
-            &params.time,
-            &params.offset,
-            &params.feedback,
-            &params.low_cut,
-            &params.high_cut,
-            &params.drive,
-            &params.character,
-            &params.motion,
-            &params.rate,
-            &params.duck,
-            &params.mix,
-        ];
-        for param in continuous {
-            for step in 0..=1000 {
-                let normalized = step as f32 / 1000.0;
-                let first = param.normalized_value_to_string(normalized, true);
-                let reparsed = param
-                    .string_to_normalized_value(&first)
-                    .unwrap_or_else(|| panic!("{} rejected {first:?}", param.name()));
-                let second = param.normalized_value_to_string(reparsed, true);
-                assert_eq!(first, second, "{} at {normalized}", param.name());
-            }
-        }
+    fn every_parameter_text_survives_the_hosts_round_trip() {
+        mxm_plugin_test::text_checks::every_text_round_trips(&MxmFxDelayParams::default(), &[]);
     }
 }

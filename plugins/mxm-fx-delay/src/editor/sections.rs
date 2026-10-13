@@ -71,13 +71,13 @@ pub fn all_parameters(params: &MxmFxDelayParams) -> Vec<Bound<'_>> {
             &params.low_cut,
             "Removes low end from every repeat.",
         )
-        .law(mxm_preset::StepLaw::Hertz),
+        .law(mxm_params::StepLaw::Hertz),
         Bound::new(
             "highcut",
             &params.high_cut,
             "Removes high end from every repeat.",
         )
-        .law(mxm_preset::StepLaw::Hertz),
+        .law(mxm_params::StepLaw::Hertz),
         Bound::new("drive", &params.drive, "Saturates every repeat."),
         Bound::new(
             "freeze",
