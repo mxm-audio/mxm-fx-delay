@@ -4,10 +4,13 @@ use std::sync::Arc;
 use std::sync::atomic::{AtomicBool, AtomicU32, Ordering};
 
 pub struct Telemetry {
-    input: AtomicU32,
-    wet: AtomicU32,
-    output: AtomicU32,
-    clipped: AtomicBool,
+    /// The input level: one `mxm_telemetry::PeakMeter`, the collection's one meter policy.
+    pub input: mxm_telemetry::PeakMeter,
+    /// The wet level: one `mxm_telemetry::PeakMeter`, the collection's one meter policy.
+    pub wet: mxm_telemetry::PeakMeter,
+    /// The output level and the clip light, which judges the output: one
+    /// `mxm_telemetry::PeakMeter`, the collection's one meter policy.
+    pub output: mxm_telemetry::PeakMeter,
     tempo: mxm_tempo::TempoCell,
     left_time: AtomicU32,
     right_time: AtomicU32,
@@ -24,10 +27,9 @@ impl Default for Telemetry {
 impl Telemetry {
     pub fn new() -> Self {
         Self {
-            input: AtomicU32::new(0),
-            wet: AtomicU32::new(0),
-            output: AtomicU32::new(0),
-            clipped: AtomicBool::new(false),
+            input: mxm_telemetry::PeakMeter::new(),
+            wet: mxm_telemetry::PeakMeter::new(),
+            output: mxm_telemetry::PeakMeter::new(),
             tempo: mxm_tempo::TempoCell::new(),
             left_time: AtomicU32::new(0),
             right_time: AtomicU32::new(0),
@@ -38,22 +40,6 @@ impl Telemetry {
 
     pub fn shared() -> Arc<Self> {
         Arc::new(Self::new())
-    }
-
-    fn publish_max(slot: &AtomicU32, value: f32) {
-        let value = if value.is_finite() { value.abs() } else { 0.0 };
-        let mut current = slot.load(Ordering::Relaxed);
-        while f32::from_bits(current) < value {
-            match slot.compare_exchange_weak(
-                current,
-                value.to_bits(),
-                Ordering::Relaxed,
-                Ordering::Relaxed,
-            ) {
-                Ok(_) => break,
-                Err(seen) => current = seen,
-            }
-        }
     }
 
     #[allow(clippy::too_many_arguments)]
@@ -67,12 +53,9 @@ impl Telemetry {
         activity: f32,
         held: bool,
     ) {
-        Self::publish_max(&self.input, input);
-        Self::publish_max(&self.wet, wet);
-        Self::publish_max(&self.output, output);
-        if output >= 1.0 {
-            self.clipped.store(true, Ordering::Relaxed);
-        }
+        self.input.publish(input);
+        self.wet.publish(wet);
+        self.output.publish(output);
         self.tempo.publish(tempo);
         self.left_time.store(times[0].to_bits(), Ordering::Relaxed);
         self.right_time.store(times[1].to_bits(), Ordering::Relaxed);
@@ -81,11 +64,7 @@ impl Telemetry {
     }
 
     pub fn take_levels(&self) -> [f32; 3] {
-        [
-            f32::from_bits(self.input.swap(0, Ordering::Relaxed)),
-            f32::from_bits(self.wet.swap(0, Ordering::Relaxed)),
-            f32::from_bits(self.output.swap(0, Ordering::Relaxed)),
-        ]
+        [self.input.take(), self.wet.take(), self.output.take()]
     }
 
     /// No tempo until the next callback reports one: what activation leaves.
@@ -111,14 +90,6 @@ impl Telemetry {
     pub fn held(&self) -> bool {
         self.held.load(Ordering::Relaxed)
     }
-
-    pub fn clipped(&self) -> bool {
-        self.clipped.load(Ordering::Relaxed)
-    }
-
-    pub fn clear_clip(&self) {
-        self.clipped.store(false, Ordering::Relaxed);
-    }
 }
 
 #[cfg(test)]
@@ -132,9 +103,9 @@ mod tests {
         telemetry.publish(0.7, 0.1, 0.4, Some(90.0), [0.4, 0.5], 0.2, false);
         assert_eq!(telemetry.take_levels(), [0.7, 0.3, 1.1]);
         assert_eq!(telemetry.take_levels(), [0.0; 3]);
-        assert!(telemetry.clipped());
-        telemetry.clear_clip();
-        assert!(!telemetry.clipped());
+        assert!(telemetry.output.clipped());
+        telemetry.output.clear_clip();
+        assert!(!telemetry.output.clipped());
         assert_eq!(telemetry.tempo(), Some(90.0));
         assert_eq!(telemetry.times(), [0.4, 0.5]);
         assert!(!telemetry.held());

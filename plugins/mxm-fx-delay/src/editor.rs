@@ -135,8 +135,8 @@ pub fn panel(
         &tokens,
         |ui| mxm_preset::ui::preset_row(ui, &tokens, params, setter, presets),
         |ui| {
-            if mxm_ui::shell::level_meter(ui, &tokens, levels[2], telemetry.clipped()) {
-                telemetry.clear_clip();
+            if mxm_ui::shell::level_meter(ui, &tokens, levels[2], telemetry.output.clipped()) {
+                telemetry.output.clear_clip();
             }
             mxm_ui::shell::zoom_control(ui);
             mxm_ui::shell::editor_theme_control(ui);
