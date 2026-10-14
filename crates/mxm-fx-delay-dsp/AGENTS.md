@@ -108,7 +108,8 @@ no longer exists.
 
 ## Realtime and numeric rules
 
-- Rust MSRV is 1.87. Normal/build dependencies are empty; `mxm-measure` is dev-only.
+- Rust MSRV is 1.87. The one normal dependency is `mxm-rng` (dependency-free, the random modulation's
+  and the wow's generator); no build dependencies; `mxm-measure` is dev-only.
 - Construction is the only allocation point. Every sample method is allocation-, lock-, log- and
   I/O-free.
 - Delay clears use per-cell generations and do not rewrite sample-rate-sized storage. The tag is a
