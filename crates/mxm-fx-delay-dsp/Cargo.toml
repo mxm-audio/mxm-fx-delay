@@ -9,6 +9,8 @@ authors.workspace = true
 repository.workspace = true
 
 [dependencies]
+# The random modulation's and the wow's generator; dependency-free at this floor.
+mxm-rng.workspace = true
 
 [dev-dependencies]
 mxm-measure.workspace = true

@@ -15,12 +15,15 @@ pub use delay::{Change, MAX_DELAY_S, MIN_DELAY_S};
 use delay::{DelayLine, TimeState};
 use filters::{LoopFilter, OnePole};
 use modulation::Modulator;
+use mxm_rng::{Xorshift64, map};
 
 pub const MIN_SAMPLE_RATE: f32 = 1_000.0;
 pub const MAX_SAMPLE_RATE: f32 = 768_000.0;
 const QUIET_LEVEL: f32 = 1.0e-7;
 const QUIET_HOLD_S: f32 = 0.5;
 const FREEZE_FADE_S: f32 = 0.025;
+/// The two channels' wow seeds: distinct, so left and right wander apart.
+const WOW_SEEDS: [u64; 2] = [0x5441_5045_4c45_4654, 0x5441_5045_5249_4748];
 const TOPOLOGY_FADE_S: f32 = 0.015;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -212,7 +215,7 @@ pub struct Engine {
     history_active: bool,
     parked: bool,
     wow_phase: f64,
-    wow_rng: [u64; 2],
+    wow_rng: [Xorshift64; 2],
     wow_local: [f32; 2],
     wow_target: [f32; 2],
     wow_until_target: u32,
@@ -248,7 +251,7 @@ impl Engine {
             history_active: false,
             parked: true,
             wow_phase: 0.0,
-            wow_rng: [0x5441_5045_4c45_4654, 0x5441_5045_5249_4748],
+            wow_rng: WOW_SEEDS.map(Xorshift64::from_state),
             wow_local: [0.0; 2],
             wow_target: [0.0; 2],
             wow_until_target: 1,
@@ -617,7 +620,7 @@ impl Engine {
         self.quiet_samples = 0;
         self.history_active = false;
         self.wow_phase = 0.0;
-        self.wow_rng = [0x5441_5045_4c45_4654, 0x5441_5045_5249_4748];
+        self.wow_rng = WOW_SEEDS.map(Xorshift64::from_state);
         self.wow_local = [0.0; 2];
         self.wow_target = [0.0; 2];
         self.wow_until_target = 1;
@@ -882,13 +885,8 @@ fn loop_saturator(input: f32, drive: f32) -> f32 {
 }
 
 #[inline]
-fn random_signed(state: &mut u64) -> f32 {
-    let mut x = *state;
-    x ^= x << 13;
-    x ^= x >> 7;
-    x ^= x << 17;
-    *state = x;
-    ((x >> 40) as f32 / ((1u32 << 24) - 1) as f32) * 2.0 - 1.0
+fn random_signed(rng: &mut Xorshift64) -> f32 {
+    map::unit_f32_closed(rng.next_u32()) * 2.0 - 1.0
 }
 
 /// A crossfade whose endpoints are exact.

@@ -141,7 +141,7 @@ locally (*Verification*).
 
 | Crate | MSRV | Why |
 |---|---|---|
-| `crates/mxm-fx-delay-dsp` | **1.87** | No runtime dependencies; the bounded stereo lines, three time-change laws, routing, model colour, modulation, Freeze and activity contracts. `mxm-measure` is dev-only. **Verified on 1.87**, library and tests |
+| `crates/mxm-fx-delay-dsp` | **1.87** | One runtime dependency, the dependency-free `mxm-rng`; the bounded stereo lines, three time-change laws, routing, model colour, modulation, Freeze and activity contracts. `mxm-measure` is dev-only. **Verified on 1.87**, library and tests |
 | `plugins/mxm-fx-delay` | **1.95** | Its dynamically paged editor pulls in egui; depends on `mxm-fx-delay-dsp`, which stays at 1.87 |
 
 ## Licensing

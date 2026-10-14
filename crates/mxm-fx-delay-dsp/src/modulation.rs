@@ -2,46 +2,34 @@
 //! command signals rather than resetting the delay read.
 
 use crate::{Routing, Shape, finite};
+use mxm_rng::{Xorshift64, map};
 
 const SHAPE_FADE_S: f32 = 0.015;
 
-#[derive(Clone, Copy)]
-struct Rng(u64);
-
-impl Rng {
-    fn new(seed: u64) -> Self {
-        Self(seed.max(1))
-    }
-
-    fn next(&mut self) -> f32 {
-        let mut x = self.0;
-        x ^= x << 13;
-        x ^= x >> 7;
-        x ^= x << 17;
-        self.0 = x;
-        let unit = (x >> 40) as f32 / ((1u32 << 24) - 1) as f32;
-        unit * 2.0 - 1.0
-    }
+/// The random shape's next target in -1..=1: `mxm-rng`'s xorshift64 through the closed law the
+/// delay was recorded with.
+fn next_target(rng: &mut Xorshift64) -> f32 {
+    map::unit_f32_closed(rng.next_u32()) * 2.0 - 1.0
 }
 
 #[derive(Clone, Copy)]
 struct RandomSegment {
     from: f32,
     to: f32,
-    rng: Rng,
+    rng: Xorshift64,
 }
 
 impl RandomSegment {
     fn new(seed: u64) -> Self {
-        let mut rng = Rng::new(seed);
-        let from = rng.next();
-        let to = rng.next();
+        let mut rng = Xorshift64::from_state(seed.max(1));
+        let from = next_target(&mut rng);
+        let to = next_target(&mut rng);
         Self { from, to, rng }
     }
 
     fn advance(&mut self) {
         self.from = self.to;
-        self.to = self.rng.next();
+        self.to = next_target(&mut self.rng);
     }
 
     fn at(&self, phase: f64) -> f32 {
