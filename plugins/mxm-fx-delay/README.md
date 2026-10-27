@@ -17,7 +17,8 @@ current Mix so insert/send balance does not change while browsing.
 cargo xtask bundle mxm-fx-delay --release
 ```
 
-The bundle is written to `target/bundled/mxm-fx-delay.clap` with its control map beside it.
+The bundle is written to `target/bundled/mxm-fx-delay.clap` with its control map and factory presets
+beside it.
 
 ## Licence
 

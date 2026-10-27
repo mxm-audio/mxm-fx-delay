@@ -129,7 +129,7 @@ fn a_factory_recipe_identity_baseline_includes_the_preserved_live_mix() {
 #[test]
 fn all_fifty_recipes_preserve_mix_disengage_freeze_and_render_audibly() {
     let input = programme();
-    for (slug, text) in preset::FACTORY_FILES {
+    for (slug, text) in preset::FACTORY_FILES.iter() {
         let mut plugin = load(text, 0.63);
         let wet = render(&mut plugin, &input);
         assert!(wet.iter().all(|sample| sample.is_finite()), "{slug}");

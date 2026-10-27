@@ -11,7 +11,7 @@ fn main() {
     let params = MxmFxDelayParams::default();
     println!("name\tfirst_ms\tpeak\ttail_rms\tstereo_rms\t3k_to_300_db");
     let mut descriptors = Vec::new();
-    for (_, json) in FACTORY_FILES {
+    for (_, json) in FACTORY_FILES.iter() {
         let preset = Preset::parse(json, mxm_fx_delay::CLAP_ID).expect("factory JSON");
         let controls = controls(&params, &preset);
         let render = render(controls);
